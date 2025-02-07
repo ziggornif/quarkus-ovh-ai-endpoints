@@ -1,0 +1,17 @@
+meta {
+  name: Ask llm
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{host}}/ai-assistant/ask
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "question": "Please write a Rust sample program"
+  }
+}
