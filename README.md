@@ -77,6 +77,12 @@ Response example :
 
 ![cat generated image](./assets/cat.png)
 
+## Build docker image
+
+```shell
+docker build -f src/main/docker/Dockerfile.native-micro -t ziggornif/ovh-ai-endpoints .
+```
+
 ## Sources
 
 - https://blog.ovhcloud.com/how-to-use-ai-endpoints-and-langchain4j/
