@@ -1,0 +1,18 @@
+meta {
+  name: Generate Image
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/ai-assistant/generate-image
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "prompt": "A black cat with a wizard hat",
+    "negative_prompt": "uggly"
+  }
+}
