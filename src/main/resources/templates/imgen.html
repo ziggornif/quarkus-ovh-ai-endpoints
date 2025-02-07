@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Assistant ☕️</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <script type="module" src="/imgen.js"></script>
+    <link rel="stylesheet" href="/app.css"/>
+</head>
+<body>
+<main class="container">
+    <nav>
+        <ul>
+            <li><h1>Assistant ☕</h1></li>
+        </ul>
+        <ul>
+            <li><a href="/">Chat</a></li>
+            <li><a href="image-creator">Image generator</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+    <section id="query">
+        <div class="hello" align="center">
+            <img src="/img/logo_150px.png" alt="Application logo">
+            <p>Generate images from your prompts</p>
+        </div>
+
+        <form id="prompt-form">
+            <fieldset role="group" class="prompt-query">
+                <input
+                        id="prompt"
+                        name="prompt"
+                        placeholder="Describe what you want to create"
+                />
+                <input
+                        id="negative_prompt"
+                        name="negative_prompt"
+                        placeholder="Specify unwanted elements (ex: bad anatomy)"
+                />
+                <input type="submit" value="Send"/>
+            </fieldset>
+        </form>
+    </section>
+    <section id="content">
+        <div id="image" class="image-container"></div>
+    </section>
+</main>
+</body>
+</html>

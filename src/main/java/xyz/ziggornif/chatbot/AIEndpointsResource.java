@@ -6,7 +6,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import xyz.ziggornif.chatbot.model.GenerateImage;
+import xyz.ziggornif.chatbot.model.AskQuery;
+import xyz.ziggornif.chatbot.model.GenerateImageQuery;
 import xyz.ziggornif.chatbot.service.ChatBotService;
 import xyz.ziggornif.chatbot.service.StableDiffusionService;
 
@@ -23,14 +24,14 @@ public class AIEndpointsResource {
 
     @POST
     @Path("ask")
-    public String ask(String question) {
-        return chatBotService.askAQuestion(question);
+    public String ask(AskQuery query) {
+        return chatBotService.askAQuestion(query.question());
     }
 
     @POST
     @Path("generate-image")
     @Produces("image/png")
-    public Response generateImage(GenerateImage query) {
+    public Response generateImage(GenerateImageQuery query) {
         byte[] image = stableDiffusionService.textToImage(query);
 
         return Response
