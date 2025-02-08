@@ -1,5 +1,6 @@
 package xyz.ziggornif.chatbot;
 
+import io.smallrye.mutiny.Multi;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -10,6 +11,8 @@ import xyz.ziggornif.chatbot.model.AskQuery;
 import xyz.ziggornif.chatbot.model.GenerateImageQuery;
 import xyz.ziggornif.chatbot.service.ChatBotService;
 import xyz.ziggornif.chatbot.service.StableDiffusionService;
+
+import java.nio.charset.StandardCharsets;
 
 @Path("ai-assistant")
 public class AIEndpointsResource {
@@ -24,8 +27,8 @@ public class AIEndpointsResource {
 
     @POST
     @Path("ask")
-    public String ask(AskQuery query) {
-        return chatBotService.askAQuestion(query.question());
+    public Multi<String> ask(AskQuery query) {
+        return chatBotService.askAQuestion(query.question()).map(str -> new String(str.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8));
     }
 
     @POST

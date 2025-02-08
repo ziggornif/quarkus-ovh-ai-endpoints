@@ -1,7 +1,9 @@
 package xyz.ziggornif.chatbot.service;
+
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
+import io.smallrye.mutiny.Multi;
 
 @RegisterAiService
 public interface ChatBotService {
@@ -9,5 +11,5 @@ public interface ChatBotService {
     @SystemMessage("You are a virtual, an AI assistant.")
     // Prompt (with detailed instructions and variable section) passed to the LLM
     @UserMessage("Answer as best possible to the following question: {question}. The answer must be in a style of a virtual assistant and add some emojis to make the answer more fun.")
-    String askAQuestion(String question);
+    Multi<String> askAQuestion(String question);
 }

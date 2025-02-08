@@ -1,27 +1,29 @@
 import markdownIt from 'https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/+esm';
 
-async function postPrompt(promptMessage, userSessionId) {
+async function postPrompt(promptMessage) {
   const query = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      prompt: promptMessage,
+      question: promptMessage,
     }),
   };
 
-  if (userSessionId) {
-    query.headers['x-session-id'] = userSessionId;
-  }
-
-  const resp = await fetch('/api/prompt', query);
+  const resp = await fetch('/ai-assistant/ask', query);
 
   if (!resp.ok) {
     throw new Error('Network response was not ok');
   }
 
-  return { reader: resp.body.getReader(), sessionId: resp.headers.get('x-session-id') };
+  return { reader: resp.body.getReader() };
+}
+
+const cleanText = (text) => {
+    return text
+        .replace(/�/g, '') // Remove replacement character
+        .replace(/[\uFFFD]/g, ''); // Remove Unicode replacement character
 }
 
 function addLoader(element) {
@@ -43,6 +45,7 @@ window.onload = async function () {
   let userSession;
   promptForm.addEventListener('submit', async (event) => {
     event.preventDefault();
+    document.activeElement.blur();
     const promptElem = document.getElementById('prompt');
     const promptMessage = promptElem.value;
     const messagesDiv = document.getElementById('messages');
@@ -50,7 +53,7 @@ window.onload = async function () {
     const robotPrompt = document.createElement('p');
 
     const userAvatar = document.createElement('img');
-    userAvatar.src = 'assets/img/you_avatar.png';
+    userAvatar.src = '/img/you_avatar.png';
     userAvatar.alt = 'user avatar';
     authorPrompt.appendChild(userAvatar);
     const userPrompt = document.createTextNode(` ${promptMessage}`);
@@ -60,15 +63,14 @@ window.onload = async function () {
     promptElem.value = null;
     promptElem.disabled = true;
 
-    const { reader, sessionId } = await postPrompt(promptMessage, userSession);
-    userSession = sessionId;
+    const { reader } = await postPrompt(promptMessage, userSession);
 
     removeLoader(messagesDiv);
     robotPrompt.innerHTML = '';
     messagesDiv.appendChild(robotPrompt);
     const decoder = new TextDecoder('utf-8');
     // Read chunks of data from the stream
-    let text = '![avatar](assets/img/avatar.png) ';
+    let text = '![avatar](/img/avatar.png) ';
     const readStream = () => {
       reader
         .read()
@@ -76,8 +78,9 @@ window.onload = async function () {
           if (done) {
             return;
           }
-          const chunkString = decoder.decode(value);
+          const chunkString = cleanText(decoder.decode(value));
           text += chunkString;
+          console.log(text)
           robotPrompt.innerHTML = markdownIt().render(text);
           promptElem.scrollIntoView();
           readStream();

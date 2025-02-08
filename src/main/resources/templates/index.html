@@ -7,6 +7,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
     <script type="module" src="/app.js"></script>
+    <link rel="stylesheet" href="/app.css"/>
 </head>
 <body>
 <main class="container">
@@ -22,7 +23,7 @@
     </nav>
     <section id="content">
         <div class="hello" align="center">
-            <img src="/img/logo.png" alt="Application logo">
+            <img src="/img/logo_150px.png" alt="Application logo">
             <p>How can I help you today ?</p>
         </div>
 
@@ -32,7 +33,7 @@
     </section>
     <section id="query">
         <form id="prompt-form">
-            <fieldset role="group">
+            <fieldset role="group" class="prompt-query">
                 <input type="text" id="prompt" name="prompt" placeholder="Your question"
                        aria-label="LLM prompt content"/>
                 <input
