@@ -77,6 +77,41 @@ Response example :
 
 ![cat generated image](./assets/cat.png)
 
+### Image reading / OCR (llava-next-mistral-7b)
+
+Endpoint : http://localhost:8080/ai-assistant/ocr
+
+Body :
+
+Multipart query with image file that contains text to read.
+
+```text
+body:multipart-form {
+  file: @file(file path)
+}
+```
+
+## UI
+
+The features are also accessible via a UI at http://localhost:8080.
+
+I used the [Qute](https://quarkus.io/guides/qute) templating engine for server-side rendering of HTML pages. The APIs
+are called using vanilla JS with fetch.
+
+Here’s what it looks like:
+
+Chatbot :
+
+![chatbot](./assets/ui_chatbot.png)
+
+Image generator :
+
+![image generator](./assets/ui_imgen.png)
+
+OCR (with OVH playground image example) :
+
+![ocr example](./assets/ui_ocr.png)
+
 ## Build docker image
 
 ```shell

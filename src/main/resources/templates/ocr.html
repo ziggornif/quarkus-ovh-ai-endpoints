@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Assistant ☕️</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <script type="module" src="/ocr.js"></script>
+    <link rel="stylesheet" href="/app.css"/>
+</head>
+<body>
+<main class="container">
+    <nav>
+        <ul>
+            <li><h1>Assistant ☕</h1></li>
+        </ul>
+        <ul>
+            <li><a href="/">Chat</a></li>
+            <li><a href="image-creator">Image generator</a></li>
+            <li><a href="ocr">OCR</a></li>
+        </ul>
+    </nav>
+    <section id="content">
+        <div class="hello" align="center">
+            <img src="/img/logo_150px.png" alt="Application logo">
+            <p>OCR with visual LLM demo</p>
+        </div>
+
+        <div style="display: flex; gap: 20px;">
+            <section style="flex: 1;">
+                <form id="ocr-form">
+                    <label for="file">File to read :</label>
+                    <input type="file" id="file" name="file" required>
+                    <button type="submit">Send</button>
+                </form>
+            </section>
+            <section style="flex: 1;">
+                <img id="uploadedImage" style="display: none; max-width: 100%; margin-bottom: 10px;"
+                     alt="Prévisualisation de l'image">
+                <pre id="resultContainer" style="background: #f4f4f4; padding: 10px; min-height: 100px;"></pre>
+            </section>
+        </div>
+    </section>
+</main>
+</body>
+</html>

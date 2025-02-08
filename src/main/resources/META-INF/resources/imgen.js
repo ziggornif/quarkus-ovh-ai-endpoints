@@ -1,5 +1,3 @@
-import markdownIt from 'https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/+esm';
-
 async function postPrompt(prompt, negative_prompt) {
   const query = {
     method: 'POST',

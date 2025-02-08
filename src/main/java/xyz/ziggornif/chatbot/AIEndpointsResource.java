@@ -63,7 +63,7 @@ public class AIEndpointsResource {
             byte[] imageData = Files.readAllBytes(file.toPath());
             String base64Image = Base64.getEncoder().encodeToString(imageData);
             OCRQuery query = new OCRQuery("data:;base64," + base64Image);
-            return ocrService.extractTextFromImage(query);
+            return ocrService.extractTextFromImage(query).choices().getFirst().message().content();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

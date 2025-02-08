@@ -16,6 +16,10 @@ public class UIEndpointsResource {
     @Inject
     Template imgen;
 
+    @Inject
+    Template ocr;
+
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getHomePage() {
@@ -27,5 +31,12 @@ public class UIEndpointsResource {
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getImageGenPage() {
         return imgen.instance();
+    }
+
+    @GET
+    @Path("ocr")
+    @Produces(MediaType.TEXT_HTML)
+    public TemplateInstance getOCRPage() {
+        return ocr.instance();
     }
 }
