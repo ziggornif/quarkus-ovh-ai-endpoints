@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestForm;
 import org.jboss.resteasy.reactive.RestHeader;
+import org.jboss.resteasy.reactive.RestMulti;
 import xyz.ziggornif.chatbot.model.AskQuery;
 import xyz.ziggornif.chatbot.model.GenerateImageQuery;
 import xyz.ziggornif.chatbot.model.OCRQuery;
@@ -40,13 +41,12 @@ public class AIEndpointsResource {
 
     @POST
     @Path("ask")
+    @Produces(MediaType.TEXT_PLAIN)
     public Multi<String> ask(@RestHeader("X-Session-ID") UUID sessionID, AskQuery query) {
-//        sessionID = sessionID == null ? UUID.randomUUID() : sessionID;
-        return chatBotService.askAQuestion(sessionID, query.question());
-//        Multi<String> responseMulti = chatBotService.askAQuestion(sessionID, query.question());
-//        return Response.ok(responseMulti.collect().asList().await().indefinitely())
-//          .header("X-Session-ID", sessionID.toString())
-//          .build();
+        sessionID = sessionID == null ? UUID.randomUUID() : sessionID;
+        return RestMulti.fromMultiData(chatBotService.askAQuestion(sessionID, query.question()))
+                .header("X-Session-ID", sessionID.toString())
+                .build();
     }
 
     @POST

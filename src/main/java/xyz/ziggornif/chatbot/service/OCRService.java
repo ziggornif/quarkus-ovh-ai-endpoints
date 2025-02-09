@@ -9,7 +9,7 @@ import xyz.ziggornif.chatbot.model.OCRQuery;
 import xyz.ziggornif.chatbot.model.OCRResponse;
 
 @Singleton
-@RegisterRestClient(configKey = "ocr-service")
+@RegisterRestClient
 public interface OCRService {
     @POST
     @Path("/completions")

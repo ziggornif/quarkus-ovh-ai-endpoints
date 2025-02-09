@@ -6,11 +6,12 @@ import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.smallrye.mutiny.Multi;
 import jakarta.inject.Singleton;
+import xyz.ziggornif.chatbot.provider.ChatSessionProvider;
 
 import java.util.UUID;
 
 @Singleton
-@RegisterAiService
+@RegisterAiService(chatMemoryProviderSupplier = ChatSessionProvider.class)
 public interface ChatBotService {
     // Scope / context passed to the LLM
     @SystemMessage("You are a virtual, an AI assistant.")

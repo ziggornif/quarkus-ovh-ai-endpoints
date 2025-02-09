@@ -1,6 +1,6 @@
 import markdownIt from 'https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/+esm';
 
-async function postPrompt(promptMessage) {
+async function postPrompt(promptMessage, sessionId) {
   const query = {
     method: 'POST',
     headers: {
@@ -11,13 +11,18 @@ async function postPrompt(promptMessage) {
     }),
   };
 
+  if (sessionId) {
+    query.headers['x-session-id'] = sessionId;
+  }
+
   const resp = await fetch('/ai-assistant/ask', query);
 
   if (!resp.ok) {
     throw new Error('Network response was not ok');
   }
+  console.log(resp.headers.get('X-Session-ID'));
 
-  return { reader: resp.body.getReader() };
+  return { reader: resp.body.getReader(), sessionId: resp.headers.get('x-session-id') };
 }
 
 const cleanText = (text) => {
@@ -63,7 +68,8 @@ window.onload = async function () {
     promptElem.value = null;
     promptElem.disabled = true;
 
-    const { reader } = await postPrompt(promptMessage, userSession);
+    const { reader, sessionId } = await postPrompt(promptMessage, userSession);
+    userSession = sessionId;
 
     removeLoader(messagesDiv);
     robotPrompt.innerHTML = '';
@@ -80,7 +86,6 @@ window.onload = async function () {
           }
           const chunkString = cleanText(decoder.decode(value));
           text += chunkString;
-          console.log(text)
           robotPrompt.innerHTML = markdownIt().render(text);
           promptElem.scrollIntoView();
           readStream();
