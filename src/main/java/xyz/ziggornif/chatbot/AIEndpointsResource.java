@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.RestForm;
+import org.jboss.resteasy.reactive.RestHeader;
 import xyz.ziggornif.chatbot.model.AskQuery;
 import xyz.ziggornif.chatbot.model.GenerateImageQuery;
 import xyz.ziggornif.chatbot.model.OCRQuery;
@@ -18,9 +19,9 @@ import xyz.ziggornif.chatbot.service.OCRService;
 import xyz.ziggornif.chatbot.service.StableDiffusionService;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Base64;
+import java.util.UUID;
 
 @Path("ai-assistant")
 public class AIEndpointsResource {
@@ -39,8 +40,13 @@ public class AIEndpointsResource {
 
     @POST
     @Path("ask")
-    public Multi<String> ask(AskQuery query) {
-        return chatBotService.askAQuestion(query.question()).map(str -> new String(str.getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8));
+    public Multi<String> ask(@RestHeader("X-Session-ID") UUID sessionID, AskQuery query) {
+//        sessionID = sessionID == null ? UUID.randomUUID() : sessionID;
+        return chatBotService.askAQuestion(sessionID, query.question());
+//        Multi<String> responseMulti = chatBotService.askAQuestion(sessionID, query.question());
+//        return Response.ok(responseMulti.collect().asList().await().indefinitely())
+//          .header("X-Session-ID", sessionID.toString())
+//          .build();
     }
 
     @POST
